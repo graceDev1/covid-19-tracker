@@ -11,7 +11,8 @@ import InfoBox from './components/InfoBox';
 import Map from './components/Map';
 import Tables from './components/Tables';
 import { SortData} from './components/util';
-
+import LineGraph from './components/LineGraph';
+import "leaflet/dist/leaflet.css";
 
 
 function App() {
@@ -22,6 +23,10 @@ function App() {
 
   const [tableData, setTableDate] = useState([]);
 
+  const [mapCenter, setMapCenter] = useState({lat: 34.80746, lng: -40.4796});
+  const [mapZoom, setMapZoom] = useState(3);
+
+  const [mapCoutries, setMapCountries] = useState([]);
   // useEffect to fetch all data
   useEffect(()=>{
      fetch('https://disease.sh/v3/covid-19/all')
@@ -49,7 +54,8 @@ function App() {
         ));
 
         const sortedData = SortData(data);
-        setTableDate(sortedData)
+        setTableDate(sortedData) 
+        setMapCountries(data);
         setContries(countries);
       })
     }
@@ -67,9 +73,11 @@ function App() {
       setCountry(countryCode);
       // all of the data
       // from the country response
-      setCountryInfo(data)
+      setCountryInfo(data);
+      setMapCenter([data.countryInfo.lat, data.country.lng]);
+      setMapZoom(4);
     });
-    console.log('COUNTRY INFO >>>>>>>',countryInfo);
+  
 
   }
 
@@ -114,7 +122,11 @@ function App() {
      
 
       {/* Map  */}
-      <Map/>
+      <Map
+      countries={mapCoutries} 
+      center={mapCenter}
+      zoom={mapZoom}
+      />
       </div>
       <Card className="app_right">
         <CardContent>
@@ -123,6 +135,8 @@ function App() {
            <Tables countries={tableData}/>
            <h3> Worldwide new cases</h3>
           {/* Graph */}
+
+          <LineGraph/>
         </CardContent>
         
       </Card>
