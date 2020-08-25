@@ -67,7 +67,7 @@ const buildChartData = (data, casesType) => {
 
 
 
-function LineGraph({casesType}) {
+function LineGraph({casesType = "cases", ...props}) {
 
     const [data, setData] = useState({});
 
@@ -89,12 +89,12 @@ function LineGraph({casesType}) {
     //https://disease.sh/v3/covid-19/all
 
     return (
-        <div>
+        <div className={props.className}>
             {/* Line graph here  */}
             {data?.length > 0 && (
                  <Line 
                  options={options}
-                 data={{datasets:[
+                 data={{datasets:[ 
                      {
                          backgroundColor: "rgba(204,16,52,0.2)",
                          borderColor:"#CC1034",
