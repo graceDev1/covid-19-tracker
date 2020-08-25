@@ -4,7 +4,7 @@ import numeral from 'numeral';
 
 
 const options = {
-    Legend:{
+    legend:{
         display: false
     },
     elements: {
@@ -47,7 +47,9 @@ const options = {
     }
 }
 
-const buildChartData = (data, casesType="cases") => {
+
+
+const buildChartData = (data, casesType) => {
     let chartData = [];
     let lastDataPoint;
     for(let date in data.cases){
@@ -65,30 +67,26 @@ const buildChartData = (data, casesType="cases") => {
 
 
 
-function LineGraph({casesType = "cases"}) {
+function LineGraph({casesType}) {
 
     const [data, setData] = useState({});
+
+
+   
     useEffect(()=>{
         const fetchData = async () =>{
         fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=120')
         .then(res => res.json())
         .then(data => {
             // clever stuff here ...
-            let chartData = buildChartData(data, "cases");
+            let chartData = buildChartData(data, casesType);
             setData(chartData);
         })
         }
        fetchData(); 
     },[casesType])
 
-    
-   
-
-
-
-   
-    
-
+    //https://disease.sh/v3/covid-19/all
 
     return (
         <div>

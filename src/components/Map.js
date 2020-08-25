@@ -1,7 +1,10 @@
 import React from 'react'
 import '../Map.css';
+// react-leaflet for using map
 import { Map as LeafletMap, TileLayer} from 'react-leaflet';
+
 import { showDataOnMap } from './util';
+
 function Map({countries,casesType, center, zoom}) {
     return (
         <div className="map">
